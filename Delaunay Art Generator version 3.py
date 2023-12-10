@@ -202,9 +202,13 @@ def main():
 
     display_results(img, del_triangulation_art)
 
-    # Save the image in the project folder
-    output_path = os.path.join(script_dir, f"{img_name}, {num_points} points, distribution type {distribution}.png")
-    del_triangulation_art.save(output_path)
-    print("Result saved at:" + str(output_path))
+    save = input("Would you like to save the image ('yes' or 'no'): ")
+
+    if save == 'yes':
+
+        # Save the image in the project folder
+        output_path = os.path.join(script_dir, f"{img_name}, {num_points} points, distribution type {distribution}.png")
+        del_triangulation_art.save(output_path)
+        print("Result saved at:" + str(output_path))
 
 main()
