@@ -6,8 +6,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
 from PIL import Image, ImageDraw
+from typing import Optional
 
-def draw_triangulation(img, triangulation, points):
+def draw_triangulation(img: Image, triangulation: Delaunay, points: np.ndarray) -> Image:
     """
     This function draws the art given an image and triangulation.
 
@@ -55,7 +56,7 @@ def draw_triangulation(img, triangulation, points):
 
     return triangulation_art
 
-def generate_points(img, num_points, distribution):
+def generate_points(img: Image, num_points: int, distribution: int) -> np.ndarray:
     """
     This function generates an array of random or uniform coordinates within the image.
 
@@ -87,10 +88,10 @@ def generate_points(img, num_points, distribution):
         # Distribution centered at the origin
     if distribution == 2:
         
-        x_vals = np.random.normal(img_width/2, img_width/4, num_points)
+        x_vals = np.random.normal(img_width/2, img_width/8, num_points)
         x_list = x_vals.tolist()
 
-        y_vals = np.random.normal(img_height/2, img_height/4, num_points)
+        y_vals = np.random.normal(img_height/2, img_height/8, num_points)
         y_list = y_vals.tolist()
        
         
@@ -119,7 +120,7 @@ def generate_points(img, num_points, distribution):
 
     return points
     
-def del_triangulation(points):
+def del_triangulation(points: np.ndarray) -> Delaunay:
     """
     Performs the triangulation on the pointset.
 
@@ -133,6 +134,7 @@ def del_triangulation(points):
     del_triangulation = Delaunay(points)
     return del_triangulation
 
+# This function doesn't function as of now
 def FSdel_triangulation(points):
     """
     Similar to del_triangulation, except it performs the furthest-site delaunay triangulation.
@@ -148,7 +150,7 @@ def FSdel_triangulation(points):
     print(points)
     return FSdel_triangulation
 
-def display_results(img, del_triangulation_art):
+def display_results(img: Image, del_triangulation_art: Image) -> None:
     """
     Displays the images side by side.
     """
@@ -167,7 +169,8 @@ def display_results(img, del_triangulation_art):
 
     plt.show()
 
-def error(img1, img2):
+# Work in progress function
+def error(img1: Image, img2: Image):
     """
     Calculates the error between two images.
 
@@ -179,7 +182,7 @@ def error(img1, img2):
     for pixel in img1:
         img1_pixels.append(pixel.getpixel())
 
-def main():
+def main() -> None:
     img_name = input("Enter the name of the image to be triangualted: ")
 
     # Get image path
