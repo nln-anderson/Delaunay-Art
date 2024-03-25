@@ -96,10 +96,10 @@ def generate_points(img, num_points, distribution):
         # Distribution centered at the origin
     if distribution == 2:
         
-        x_vals = np.random.normal(img_width/2, img_width/4, num_points)
+        x_vals = np.random.normal(img_width/2, img_width/8, num_points)
         x_list = x_vals.tolist()
 
-        y_vals = np.random.normal(img_height/2, img_height/4, num_points)
+        y_vals = np.random.normal(img_height/2, img_height/8, num_points)
         y_list = y_vals.tolist()
        
         
