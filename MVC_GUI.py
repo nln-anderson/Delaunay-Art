@@ -165,6 +165,7 @@ class View(tk.CTkFrame):
     num_points_entry: tk.CTkEntry
     distribution_dropdown: tk.CTkOptionMenu
     generate_button: tk.CTkButton
+    change_image_button: tk.CTkButton
 
     model: Model
     
@@ -189,7 +190,6 @@ class View(tk.CTkFrame):
 
         # Getting the image to create the app
         image = Image.open("starry_night.jpg")
-        img_width, img_height = image.size
 
         # Creating the widgets and packing
         orig_img = tk.CTkImage(light_image= image, dark_image= image, size=(300, 300))
@@ -204,12 +204,14 @@ class View(tk.CTkFrame):
         num_points_lab = tk.CTkLabel(options_frame, text="Number of Points:")
         num_points_entry = tk.CTkEntry(options_frame)
         distribution_dropdown = tk.CTkOptionMenu(options_frame, values= ["Random", "Uniform", "Centered"])
+        change_image_button = tk.CTkButton(options_frame, text="Change Image")
         num_points_entry.insert(0, 1000) # Putting a default value so that app starts with a triangulated image
         generate_button = tk.CTkButton(bottom_frame, text="Generate Image")
 
         num_points_lab.pack(side="left")
         num_points_entry.pack(side="left")
         distribution_dropdown.pack(side="left")
+        change_image_button.pack(side="left")
         generate_button.pack(side="top")
 
         # Assigning the instance vars
@@ -218,6 +220,7 @@ class View(tk.CTkFrame):
         self.num_points_entry = num_points_entry
         self.distribution_dropdown = distribution_dropdown
         self.generate_button = generate_button
+        self.change_image_button = change_image_button
 
 class Controller:
     """Controller that connects the View and Model. Handles operations between the two
@@ -230,14 +233,31 @@ class Controller:
         self.model = model
         self.view = view
         self.set_generate()
+        self.set_change_image()
 
     # Methods
-    def set_generate(self):
-        """Sets the command of the generate button
+    def set_change_image(self) -> None:
+        """Sets the command of the change_image button
+        """
+        self.view.change_image_button.configure(command= self.browseFiles)
+
+    def browseFiles(self) -> None:
+        """Function for allowing the user to select an image. Sets the GUI image as the one selected
+        """
+        filename = tk.filedialog.askopenfilename()
+        new_image = Image.open(filename)
+
+        # Must readjust size of new image
+        original_size = self.view.orig_img._light_image.size
+        new_image = new_image.resize(original_size)
+        self.view.orig_img.configure(light_image = new_image, dark_image = new_image)
+
+    def set_generate(self) -> None:
+        """Sets the command and bind of the generate button
         """
         self.view.generate_button.configure(command= self.update_art)
 
-    def update_art(self):
+    def update_art(self) -> None:
         """Generates the art and updates the GUI to display it.
         """
         # Gather the inputs from GUI
@@ -251,9 +271,9 @@ class Controller:
             dis = Distribution.CENTERED
         
         # Create the art image
-        points = self.model.generate_points(Image.open("starry_night.jpg"), num_points, dis)
+        points = self.model.generate_points(self.view.orig_img._light_image, num_points, dis)
         triang = self.model.del_triangulation(points)
-        art = self.model.draw_triangulation(Image.open("starry_night.jpg"),triang, points)
+        art = self.model.draw_triangulation(self.view.orig_img._light_image,triang, points)
 
         # Update the GUI
         self.view.art_img.configure(light_image = art, dark_image = art)
