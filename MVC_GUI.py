@@ -166,6 +166,7 @@ class View(tk.CTkFrame):
     distribution_dropdown: tk.CTkOptionMenu
     generate_button: tk.CTkButton
     change_image_button: tk.CTkButton
+    save_button: tk.CTkButton
 
     model: Model
     
@@ -201,18 +202,24 @@ class View(tk.CTkFrame):
         art_img_lab.pack(side="left")
 
         # More widgets and packing
+        # Options frame
         num_points_lab = tk.CTkLabel(options_frame, text="Number of Points:")
         num_points_entry = tk.CTkEntry(options_frame)
         distribution_dropdown = tk.CTkOptionMenu(options_frame, values= ["Random", "Uniform", "Centered"])
         change_image_button = tk.CTkButton(options_frame, text="Change Image")
         num_points_entry.insert(0, 1000) # Putting a default value so that app starts with a triangulated image
+
+        # Bottom Frame
         generate_button = tk.CTkButton(bottom_frame, text="Generate Image")
+        save_button = tk.CTkButton(bottom_frame, text="Save")
 
         num_points_lab.pack(side="left")
         num_points_entry.pack(side="left")
         distribution_dropdown.pack(side="left")
         change_image_button.pack(side="left")
-        generate_button.pack(side="top")
+
+        generate_button.pack(side="left")
+        save_button.pack(side="left")
 
         # Assigning the instance vars
         self.orig_img = orig_img
@@ -221,6 +228,7 @@ class View(tk.CTkFrame):
         self.distribution_dropdown = distribution_dropdown
         self.generate_button = generate_button
         self.change_image_button = change_image_button
+        self.save_button= save_button
 
 class Controller:
     """Controller that connects the View and Model. Handles operations between the two
@@ -234,12 +242,25 @@ class Controller:
         self.view = view
         self.set_generate()
         self.set_change_image()
+        self.set_save()
 
     # Methods
     def set_change_image(self) -> None:
         """Sets the command of the change_image button
         """
         self.view.change_image_button.configure(command= self.browseFiles)
+
+    def set_save(self) -> None:
+        """Sets the command of the save button
+        """
+        self.view.save_button.configure(command = self.save_file)
+
+    def save_file(self) -> None:
+        """Save the current triangulation art image
+        """
+        filename = tk.filedialog.asksaveasfilename(defaultextension=".png")
+        art_image = self.view.art_img._light_image
+        art_image.save(filename)
 
     def browseFiles(self) -> None:
         """Function for allowing the user to select an image. Sets the GUI image as the one selected
