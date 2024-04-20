@@ -3,7 +3,7 @@ The goal of this project is to create Triangulation Art using Python. Work is ba
 more features in the future.
 
 ## Demonstration
-![Starry Night Example]("C:\Users\nolio\OneDrive\Pictures\Screenshots\ProgramGUI.png")
+![Starry Night Example](ProgramGUI.png)
 
 ## File Guide
 - MVC_GUI.py - Main application. Simply run the script and have fun! \
