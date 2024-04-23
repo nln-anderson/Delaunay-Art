@@ -20,5 +20,7 @@ more features in the future.
 
 ## Mathematics
 The algorithm behind the art is know as Delaunay Triangulation. I won't go into deep detail about how the algorithm works here, but it is neat and would recommend checking it out. In short, the algorithm yields the "fattest" triangles when triangulating a point set. There are multiple algorithms for it, but I believe the coolest is by using 3D. Yes, we will use 3 dimensions for a 2D point set. The quickest explanation I could give is that the 2D projection of the convex hull of the pointset, where z = x^2 + y^2, is the Delaunay Triangulation of the pointset. See picture for an intuitive understanding. 
+
 ![Delaunay Triangulation from 3D Convex Hull](Delaunay.png)
+
 Besides its practicality, the triangulation is aesthetically pleasing because of lack of "skinny" triangles. One very interesting feature of this triangulation is that it is the dual triangulation of the Voronoi diagram of the points. I would recommend 
