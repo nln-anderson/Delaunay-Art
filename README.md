@@ -23,4 +23,4 @@ The algorithm behind the art is know as Delaunay Triangulation. I won't go into 
 
 ![Delaunay Triangulation from 3D Convex Hull](Delaunay.png)
 
-Besides its practicality, the triangulation is aesthetically pleasing because of lack of "skinny" triangles. One very interesting feature of this triangulation is that it is the dual triangulation of the Voronoi diagram of the points. I would recommend 
+Besides its practicality, the triangulation is aesthetically pleasing because of lack of "skinny" triangles. One very interesting feature of this triangulation is that it is the dual triangulation of the Voronoi diagram of the points. I would recommend reading *Discrete and Computational Geometry* by Satyan Devadoss and Joseph O'Rourke. I had actually learned about all of this in Dr Devadoss' Geometry class at the University of San Diego!
